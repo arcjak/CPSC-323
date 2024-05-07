@@ -1,0 +1,67 @@
+
+README for CPSC 323 Project 2, Daniel Lee
+
+-Download .cpp file and open in Visual Studio Code
+-Ensure you have a C++ compiler already downloaded
+-Press F5, or select Run without Debugging
+-The program will output 
+
+Input: (id+id)$
+Stack:
+Step Stack Input Action
+…
+…
+…
+…
+…
+…
+…
+…
+Output: String is accepted/ String is not accepted.
+
+This cpp file runs for the following test cases: (1) (id+id)*id$ (2) id*id$ (3) (id*)$. Test cases may be changed by modifying line 126 in the code. 
+
+Expected output:
+
+(1) (id+id)*id$
+Stack          Input       Action
+0               (id+id)*id$       Shift 1
+0 1           id+id)*id$       Shift 5
+0 1 5         +id)*id$         Reduce by Rule E → T
+0 1 2         +id)*id$         Shift 2
+0 1 2 2       id)*id$          Shift 5
+0 1 2 2 5     )*id$            Reduce by Rule T → F
+0 1 2 2 4     )*id$            Shift 3
+0 1 2 2 4 3   *id$             Shift 5
+0 1 2 2 4 3 5 id$              Reduce by Rule F → id
+0 1 2 2 4 3 5 6                 Reduce by Rule T → F
+0 1 2 2 4 3 7                   Reduce by Rule E → E + T
+0 1 2 2 8                       Shift 3
+0 1 9                           Reduce by Rule T → F
+0 10                            Reduce by Rule E → T
+0 1                             Accept
+
+Input (2): id*id$
+
+Stack          Input       Action
+0               id*id$         Shift 5
+0 5             *id$           Reduce by Rule T → F
+0 4             *id$           Shift 3
+0 4 3           id$            Shift 5
+0 4 3 5         $              Reduce by Rule F → id
+0 4 3 5 6                         Reduce by Rule T → F
+0 4 3 7                           Reduce by Rule E → T
+0 8                               Accept
+
+Input (3): (id*)$
+Stack          Input       Action
+0               (id*)$         Shift 1
+0 1             id*)$          Shift 5
+0 1 5           *)$            Reduce by Rule F → id
+0 1 4           *)$            Shift 3
+0 1 4 3         *$             Shift 5
+0 1 4 3 5       $              Reduce by Rule F → id
+0 1 4 3 5 6                         Reduce by Rule T → F
+0 1 4 3 7                           Reduce by Rule E → T
+0 8                               Accept
+
