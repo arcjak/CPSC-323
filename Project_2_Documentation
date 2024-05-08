@@ -24,44 +24,64 @@ This cpp file runs for the following test cases: (1) (id+id)*id$ (2) id*id$ (3) 
 Expected output:
 
 (1) (id+id)*id$
-Stack          Input       Action
-0               (id+id)*id$       Shift 1
-0 1           id+id)*id$       Shift 5
-0 1 5         +id)*id$         Reduce by Rule E → T
-0 1 2         +id)*id$         Shift 2
-0 1 2 2       id)*id$          Shift 5
-0 1 2 2 5     )*id$            Reduce by Rule T → F
-0 1 2 2 4     )*id$            Shift 3
-0 1 2 2 4 3   *id$             Shift 5
-0 1 2 2 4 3 5 id$              Reduce by Rule F → id
-0 1 2 2 4 3 5 6                 Reduce by Rule T → F
-0 1 2 2 4 3 7                   Reduce by Rule E → E + T
-0 1 2 2 8                       Shift 3
-0 1 9                           Reduce by Rule T → F
-0 10                            Reduce by Rule E → T
-0 1                             Accept
+Stack:
+Step    Stack <--       Input           Table           Action
+-       0               (id+id)*id$             S4              Shift to state 4
+-       0 4             id+id)*id$              S5              Shift 5
+-       0 4 5           +id)*id$                R6              Reduce by F -> id03
+-       0 4 3           +id)*id$                R4              Reduce by T -> F
+-       0 4 2           +id)*id$                R2              Reduce by E -> T
+-       0 4 8           +id)*id$                S6              Shift to state 6
+-       0 4 8 6                 id)*id$         S5              Shift 5
+-       0 4 8 6 5               )*id$           R6              Reduce by F -> id03
+-       0 4 8 6 3               )*id$           R4              Reduce by T -> F
+-       0 4 8 6 9               )*id$           R1              Reduce by E -> E + T
+-       0 4 8           )*id$           Shift to state 11
+-       0 4 8 11                *id$            R5              Reduce by F -> (E)
+-       0 3             *id$            R4              Reduce by T -> F
+-       0 2             *id$            S7              Shift to state 7
+-       0 2 7           id$             S5              Shift 5
+-       0 2 7 5                 $               R6              Reduce by F -> id010
+-       0 2 7 10                $               R3              Reduce by T -> T * F
+-       0 2             $               R2              Reduce by E -> T
+-       0 1             $               Accept
+Accepted
 
-Input (2): id*id$
+Input: id*id$
+Stack:
+Step    Stack <--       Input           Table           Action
+-       0               id*id$          S5              Shift 5
+-       0 5             *id$            R6              Reduce by F -> id03
+-       0 3             *id$            R4              Reduce by T -> F
+-       0 2             *id$            S7              Shift to state 7
+-       0 2 7           id$             S5              Shift 5
+-       0 2 7 5                 $               R6              Reduce by F -> id010
+-       0 2 7 10                $               R3              Reduce by T -> T * F
+-       0 2             $               R2              Reduce by E -> T
+-       0 1             $               Accept
+Accepted
 
-Stack          Input       Action
-0               id*id$         Shift 5
-0 5             *id$           Reduce by Rule T → F
-0 4             *id$           Shift 3
-0 4 3           id$            Shift 5
-0 4 3 5         $              Reduce by Rule F → id
-0 4 3 5 6                         Reduce by Rule T → F
-0 4 3 7                           Reduce by Rule E → T
-0 8                               Accept
+Stack:
+Step    Stack <--       Input           Table           Action
+-       0               id*id$          S5              Shift 5
+-       0 5             *id$            R6              Reduce by F -> id03
+-       0 3             *id$            R4              Reduce by F -> (E)
+-       0 2             *id$            S7              Shift to state 7
+-       0 2 7           id$             S5              Shift 5
+-       0 2 7 5           $             R6              Reduce by F -> id010
+-       0 2 7 10         $              R3              Reduce by T -> T * F
+-       0 2             $               R2              Reduce by E -> T
+-       0 1             $               Accept
+Accepted
 
 Input (3): (id*)$
 Stack          Input       Action
-0               (id*)$         Shift 1
-0 1             id*)$          Shift 5
-0 1 5           *)$            Reduce by Rule F → id
-0 1 4           *)$            Shift 3
-0 1 4 3         *$             Shift 5
-0 1 4 3 5       $              Reduce by Rule F → id
-0 1 4 3 5 6                         Reduce by Rule T → F
-0 1 4 3 7                           Reduce by Rule E → T
-0 8                               Accept
-
+Stack:
+Step    Stack <--       Input           Table           Action
+-       0               (id*)$          S4              Shift to state 4
+-       0 4             id*)$           S5              Shift 5
+-       0 4 5           *)$             R6              Reduce by F -> id03
+-       0 4 3           *)$             R4              Reduce by F -> (E)
+-       0 4 2           *)$             S7              Shift to state 7
+-       0 4 2 7                 )$              Invalid input
+Rejected
